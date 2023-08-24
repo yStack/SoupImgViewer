@@ -38,8 +38,8 @@ namespace Soup
 
         #region 控件依赖属性
 
-        public static readonly DependencyProperty IsDisplayToolBarProperty =
-        DependencyProperty.Register("IsDisplayToolBar", typeof(bool), typeof(UserControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty IsDisplayTopToolBarProperty =
+        DependencyProperty.Register("IsDisplayTopToolBar", typeof(bool), typeof(UserControl), new PropertyMetadata(true));
 
         public static readonly DependencyProperty IsDisplaySideBarProperty =
         DependencyProperty.Register("IsDisplaySideBar", typeof(bool), typeof(UserControl), new PropertyMetadata(false));
@@ -51,10 +51,10 @@ namespace Soup
         /// <summary>
         /// 是否显示顶部工具栏
         /// </summary>
-        public bool IsDisplayToolBar
+        public bool IsDisplayTopToolBar
         {
-            get { return (bool)GetValue(IsDisplayToolBarProperty); }
-            set { SetValue(IsDisplayToolBarProperty, value); }
+            get { return (bool)GetValue(IsDisplayTopToolBarProperty); }
+            set { SetValue(IsDisplayTopToolBarProperty, value); }
         }
 
 

@@ -225,35 +225,6 @@
             </Setter>
         </Style>
 
-        <Image x:Key="GraspImg" Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality"  Source="/SoupImgViewer;component/Resources/grasp.png"/>
-        <Image x:Key="HoverGraspImg" Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality"  Source="/SoupImgViewer;component/Resources/grasp_hover.png"/>
-
-        <Style x:Key="GraspBtnStyle" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource TextRadioBtnStyle}">
-            <Setter Property="Content" Value="{StaticResource GraspImg}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border x:Name="radioButtonBorder" Background="{TemplateBinding Background}">
-                            <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
-                                <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Content" Value="{StaticResource HoverGraspImg}"></Setter>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Content" Value="{StaticResource HoverGraspImg}"></Setter>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="true">
-                                <Setter Property="Content" Value="{StaticResource HoverGraspImg}"></Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <Style x:Key="BlueButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Foreground" Value="#CCCED2"/>
             <Setter Property="Background" Value="#393f4b"/>
@@ -303,8 +274,8 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <!--顶部工具栏-->
-        <Grid Grid.Row="0" Panel.ZIndex="2" Visibility="{Binding IsDisplayToolBar, Converter={StaticResource BooleanToVisibilityConverter},  RelativeSource={RelativeSource AncestorType=local:ImgViewer, Mode=FindAncestor}}">
+        <!--Top Toolbar-->
+        <Grid Grid.Row="0" Panel.ZIndex="2" Visibility="{Binding IsDisplayTopToolBar, Converter={StaticResource BooleanToVisibilityConverter},  RelativeSource={RelativeSource AncestorType=local:ImgViewer, Mode=FindAncestor}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -312,7 +283,7 @@
         </Grid>
 
         
-        <!--左侧工具栏-->
+        <!--Left ToolBar-->
         <Grid Panel.ZIndex="2" Background="#121719" Width="30" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,40,0,40" 
               Visibility="{Binding IsDisplaySideBar, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=local:ImgViewer}}">
             <StackPanel x:Name="sideToolBar" Orientation="Vertical">

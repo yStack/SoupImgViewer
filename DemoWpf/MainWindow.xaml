@@ -12,6 +12,6 @@
             <ColumnDefinition Width="120"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <soup:ImgViewer Grid.Column="1" IsDisplaySideBar="True" IsDisplayBottomBar="True" IsDisplayToolBar="True"></soup:ImgViewer>
+        <soup:ImgViewer Grid.Column="1" IsDisplaySideBar="True" IsDisplayBottomBar="True" IsDisplayTopToolBar="True"></soup:ImgViewer>
     </Grid>
 </Window>
