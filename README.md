@@ -1,7 +1,7 @@
 # SoupImgViewer
 
-A WPF control for showing images based on HSmartWindowControlWPF
+A WPF usercontrol for showing images based on HSmartWindowControlWPF for HALCON developers
 
-You can draw ROI width it
+You can draw ROI easily
 
 ![image](in4ig-is5wn.gif)
