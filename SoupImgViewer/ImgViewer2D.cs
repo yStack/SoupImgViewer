@@ -6,16 +6,30 @@ namespace Soup
 {
     public partial class ImgViewer
     {
+        #region fields
         private HWindow _hWind2D;
+        #endregion
+
+
+        #region props
 
         public HImage CurrentImg2D { get; set; }
 
 
-        #region bottom toolBar 
+        /// <summary>
+        /// default line width of hxldcontour
+        /// </summary>
+        public double HxldLineWidth { get; set; } = 2.0;
+
+        #endregion
+
+
+        #region bottom toolBar props
 
         private int _imageX;
         private int _imageY;
         private string _pointGray;
+
 
         public int ImageX
         {
@@ -27,6 +41,7 @@ namespace Soup
             }
         }
 
+
         public int ImageY
         {
             get { return _imageY; }
@@ -37,6 +52,10 @@ namespace Soup
             }
         }
 
+
+        /// <summary>
+        /// gray value of mouse point
+        /// </summary>
         public string PointGray
         {
             get { return _pointGray; }
@@ -47,22 +66,6 @@ namespace Soup
             }
         }
         #endregion
-
-
-
-        /// <summary>
-        /// 显示2D对象
-        /// </summary>
-        /// <param name="obj2d"></param>
-        /// <param name="isAppend"></param>
-        public void DisplayObject2D(HObject obj2d, int targetId, bool isAppend)
-        {
-            InvokeIfRequired(() =>
-            {
-                InnerDisp2D(SmartWindow2D, obj2d, isAppend);
-            });
-        }
-
 
 
         #region  init
@@ -92,7 +95,7 @@ namespace Soup
         #endregion
 
 
-        #region
+        #region private methods
         /// <summary>
         /// display pixel’s Gray Value
         /// </summary>
@@ -133,7 +136,6 @@ namespace Soup
             }
         }
 
-        #endregion
 
 
         /// <summary>
@@ -144,30 +146,32 @@ namespace Soup
         /// <param name="isAppend"></param>
         private void InnerDisp2D(HSmartWindowControlWPF smartWindCtrl, HObject obj2d, bool isAppend = false)
         {
-            if(CurrentImg2D != null && CurrentImg2D.IsInitialized()) CurrentImg2D.Dispose();
-
-            //如果不是添加模式，则清空窗口
+            //we clear the window if it's not append mode 
             if (!isAppend)
             {
                 smartWindCtrl.HalconWindow.ClearWindow();
                 smartWindCtrl.Items.Clear();
             }
 
-            //如果对象过多, 则清空窗口
-            if (smartWindCtrl.Items.Count > 25)
+            //we also clear the window if the halcon window has too much objects
+            if (smartWindCtrl.Items.Count > 150)
             {
                 smartWindCtrl.HalconWindow.ClearWindow();
                 smartWindCtrl.Items.Clear();
             }
 
-            // 默认是绿色
+            // set default color 
             _hWind2D.SetColor(SoupColor.Green25);
+            // set default hxld width
+            _hWind2D.SetLineWidth(HxldLineWidth);
+
             int count = obj2d.CountObj();
             if (count == 1)
             {
                 HTuple type = obj2d.GetObjClass();
                 if (type.S == "image")
                 {
+                    if (CurrentImg2D != null && CurrentImg2D.IsInitialized()) CurrentImg2D.Dispose();
                     CurrentImg2D = new HImage(obj2d);
                 }
                 smartWindCtrl.Items.Add(obj2d);
@@ -192,9 +196,37 @@ namespace Soup
             }
         }
 
+        #endregion
 
-   
+
+        #region public methods
+        /// <summary>
+        /// display object 2d
+        /// </summary>
+        /// <param name="obj2d"></param>
+        /// <param name="isAppend"></param>
+        public void DisplayObject2D(HObject obj2d, bool isAppend = false)
+        {
+            InvokeIfRequired(() =>
+            {
+                InnerDisp2D(SmartWindow2D, obj2d, isAppend);
+            });
+        }
 
 
+
+        /// <summary>
+        /// clear window
+        /// </summary>
+        public void Clear2D()
+        {
+            if (CurrentImg2D != null && CurrentImg2D.IsInitialized())
+            {
+                CurrentImg2D.Dispose();
+            }
+            SmartWindow2D.Items.Clear();
+            _hWind2D.ClearWindow();
+        }
+        #endregion
     }
 }

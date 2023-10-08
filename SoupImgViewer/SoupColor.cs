@@ -13,7 +13,6 @@ namespace Soup
         //random seed
         private static Random rd = new Random();
 
-
         static SoupColor()
         {
             ColorList = GetColorList();
@@ -32,6 +31,7 @@ namespace Soup
             {
                 throw new ArgumentException($"Wrong Argument {rgb}");
             }
+            if (alpha == 0) alpha = 0.1;
             int a = (int)Math.Ceiling(255 * alpha);
 
             //convert to hex string
@@ -82,7 +82,7 @@ namespace Soup
         }
 
 
-        //default color infos
+        //default color
         //default alpha = 25%
         public static string Red25 = "#ce3d3b40";
         public static string Green25 = "#19b80340";

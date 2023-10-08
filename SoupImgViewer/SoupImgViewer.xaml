@@ -265,7 +265,7 @@
             </Setter>
         </Style>
 
-        <SolidColorBrush x:Key="OpacityBackground" Color="#121719" Opacity="0.5"></SolidColorBrush>
+        <SolidColorBrush x:Key="OpacityBackground" Color="#1f1f1f" Opacity="0.5"></SolidColorBrush>
     </UserControl.Resources>
 
     <Grid Background="#121719">
@@ -284,7 +284,7 @@
 
         
         <!--Left ToolBar-->
-        <Grid Panel.ZIndex="2" Background="#121719" Width="30" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,40,0,40" 
+        <Grid Panel.ZIndex="2" Background="#1f1f1f" Width="30" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,40,0,40" 
               Visibility="{Binding IsDisplaySideBar, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=local:ImgViewer}}">
             <StackPanel x:Name="sideToolBar" Orientation="Vertical">
                 <RadioButton x:Name="DragBtn" ToolTip="鼠标拖动" GroupName="sideToolGroup" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Center" Checked="DragBtn_Checked" Unchecked="DragBtn_Unchecked" IsChecked="{Binding IsMouseArrowBtnChecked, RelativeSource={RelativeSource AncestorType=local:ImgViewer}}" Style="{StaticResource DragBtnStyle}"/>
@@ -293,7 +293,7 @@
                 <Rectangle Width="30" Height="1" Stroke="Gray"></Rectangle>
                 <RadioButton x:Name="RoiCircle" ToolTip="圆形ROI" GroupName="sideToolGroup" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Center" Checked="RoiCircle_Checked" Unchecked="RoiCircle_Unchecked" Style="{StaticResource CircleBtnStyle}"/>
                 <Rectangle Width="30" Height="1" Stroke="Gray"></Rectangle>
-                <RadioButton x:Name="RoiCustomDraw" ToolTip="多边形ROI" GroupName="sideToolGroup" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Center" Checked="RoiCustomDraw_Checked" Unchecked="RoiCustomDraw_Unchecked" Style="{StaticResource PolyBtnStyle}"/>
+                <RadioButton x:Name="RoiPolygon" ToolTip="多边形ROI" GroupName="sideToolGroup" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Center" Checked="RoiCustomDraw_Checked" Unchecked="RoiCustomDraw_Unchecked" Style="{StaticResource PolyBtnStyle}"/>
                 <Rectangle Width="30" Height="1" Stroke="Gray"></Rectangle>
             </StackPanel>
         </Grid>
@@ -321,10 +321,10 @@
 
         
         <Grid Grid.Row="0" Grid.RowSpan="2">
-            <halcondotnet:HSmartWindowControlWPF HKeepAspectRatio="True" Name="SmartWindow2D" SizeChanged="SmartWindow2D_SizeChanged" HMouseMove="SmartWindow2D_HMouseMove" HInitWindow="SmartWindow2D_Initialized">
-            </halcondotnet:HSmartWindowControlWPF>
+            <halcondotnet:HSmartWindowControlWPF HKeepAspectRatio="True" Name="SmartWindow2D" HMouseMove="SmartWindow2D_HMouseMove" HInitWindow="SmartWindow2D_Initialized"/>
 
-            <!--顶层canvas-->
+
+            <!--TOP canvas-->
             <Canvas x:Name="MouseCanvas" Visibility="Collapsed" Panel.ZIndex="1"  Background="Transparent" MouseLeftButtonDown="MouseCanvas_MouseLeftButtonDown" MouseMove="MouseCanvas_MouseMove" MouseUp="MouseCanvas_MouseUp"></Canvas>
         </Grid>
     </Grid>

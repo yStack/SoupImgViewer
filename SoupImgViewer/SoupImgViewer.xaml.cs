@@ -7,7 +7,7 @@ using System.Windows.Controls;
 namespace Soup
 {
     /// <summary>
-    /// UserControl1.xaml 的交互逻辑
+    /// UserControl1.xaml 
     /// </summary>
     public partial class ImgViewer : UserControl, INotifyPropertyChanged
     {
@@ -25,18 +25,7 @@ namespace Soup
         #endregion
 
 
-        #region 事件
-
-        /// <summary>
-        /// 
-        /// 需要等到HWindowSmartControl初始化完成，在这之前对Window的操作都是无效的
-        /// </summary>
-        public Action OnInited { get; set; }
-
-        #endregion
-
-
-        #region 控件依赖属性
+        #region DP
 
         public static readonly DependencyProperty IsDisplayTopToolBarProperty =
         DependencyProperty.Register("IsDisplayTopToolBar", typeof(bool), typeof(UserControl), new PropertyMetadata(true));
@@ -80,8 +69,9 @@ namespace Soup
         #endregion
 
 
+        #region props
         /// <summary>
-        /// 窗口背景颜色，可以是RGB字符串,例如"#aabbcc"
+        /// halcon window background color
         /// </summary>
         public string WindowBackgourdColor
         {
@@ -89,31 +79,20 @@ namespace Soup
             set;
         } = "black";
 
-
-        public bool IsInit { get; set; } = false;
-
+        #endregion
 
 
-
+        #region ctor
         public ImgViewer()
         {
             InitializeComponent();
             InitHalconDefaultPara();
         }
 
+        #endregion
 
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SmartWindow2D_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (this.Visibility != Visibility.Visible) return;
-        }
-
+        #region private methods
 
         /// <summary>
         /// 
@@ -129,31 +108,18 @@ namespace Soup
         }
 
 
-        /// <summary>
-        /// clear window
-        /// </summary>
-        public void Clear2D()
-        {
-            if (CurrentImg2D != null && CurrentImg2D.IsInitialized())
-            {
-                CurrentImg2D.Dispose();
-            }
-            SmartWindow2D.Items.Clear();
-            _hWind2D.ClearWindow();
-        }
-
 
 
         /// <summary>
-        /// 初始化参数
+        /// init halcon para
         /// </summary>
         private void InitHalconDefaultPara()
         {
-            HOperatorSet.SetSystem("width", 2000);
-            HOperatorSet.SetSystem("height", 2000);
+            HOperatorSet.SetSystem("width", 2500);
+            HOperatorSet.SetSystem("height", 2500);
         }
 
-   
+
 
         private void InvokeIfRequired(Action action)
         {
@@ -166,5 +132,7 @@ namespace Soup
                 action.Invoke();
             }
         }
+
+        #endregion
     }
 }

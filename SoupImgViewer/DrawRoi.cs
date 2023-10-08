@@ -7,7 +7,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-
 namespace Soup
 {
     /// <summary>
@@ -15,33 +14,34 @@ namespace Soup
     /// </summary>
     public partial class ImgViewer
     {
-        #region 字段
-        //鼠标起始点和结束点
+        #region fields
+        //mouse start point and endpoint
         private Point _startPoint;
         private Point _endPoint;
 
-        //canvas上的对象
-        //Rectangle
+        //Rectangle in canvas
         private Rectangle _canvasRect = new Rectangle();
 
-        //圆形ROI
+        //Circle in canvas
         private Ellipse _canvasEllipse = new Ellipse();
         private Path _cross = new Path();
 
-        //多边形ROI
+        //Polygon in canvas
         private Polygon _canvasPolygon = new Polygon();
         private Polyline _canvasPolyline = new Polyline();
         private Line _canvasMouseLine = new Line();
 
-        //roi
+        //halcon roi object
         private HDrawingObject _roi; 
         private HRegion _roiRegion = new HRegion();
 
+        //rectangle para
         private double _r1 = 0;
         private double _c1 = 0;
         private double _r2 = 0;
         private double _c2 = 0;
 
+        //circle para
         private double _circleRow;
         private double _circleCol;
         private double _circleRadius;
@@ -56,7 +56,7 @@ namespace Soup
         #endregion
 
 
-        #region 属性
+        #region props
         public static readonly DependencyProperty IsMouseArrowBtnCheckedProperty =
         DependencyProperty.Register("IsMouseArrowBtnChecked", typeof(bool), typeof(UserControl), new PropertyMetadata(true));
 
@@ -67,10 +67,22 @@ namespace Soup
         }
 
 
+        /// <summary>
+        /// stroke color 
+        /// </summary>
         public string StrokeColor { get; set; } = "#6495ed";
 
+
+        /// <summary>
+        /// stroke thickness
+        /// </summary>
         public double StokeThickness { get; set; } = 2;
 
+
+
+        /// <summary>
+        /// the result of roi region
+        /// </summary>
 
         public HRegion RoiRegion
         {
@@ -103,15 +115,24 @@ namespace Soup
         #endregion
 
 
-        #region UI事件交互
+        #region UI events
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void MouseCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                // when mouse left button click, we record the start point
                 _startPoint = e.GetPosition(MouseCanvas);
 
-                if (RoiCustomDraw.IsChecked == true && e.ClickCount == 1)
+                // record polygon point 
+                if (RoiPolygon.IsChecked == true && e.ClickCount == 1)
                 {
                     _polyLineStartDrawed = true;
 
@@ -121,8 +142,8 @@ namespace Soup
                     _startPoint = currentPoint;
                 }
 
-                //鼠标双击，结束绘制多边形
-                if (RoiCustomDraw.IsChecked == true && e.ClickCount == 2)
+                // when mouse left button double click and poly
+                if (RoiPolygon.IsChecked == true && e.ClickCount == 2)
                 {
                     _canvasPolygon.Visibility = Visibility.Visible;
 
@@ -139,7 +160,7 @@ namespace Soup
 
                     _canvasPolyline.Visibility = Visibility.Collapsed;
                     _canvasMouseLine.Visibility = Visibility.Collapsed;
-                    RoiCustomDraw.IsChecked = false;
+                    RoiPolygon.IsChecked = false;
                     _polyLineStartDrawed = false;
 
                     rows.Append(rows[0]);
@@ -250,7 +271,7 @@ namespace Soup
 
 
             // 多边形ROI
-            if (RoiCustomDraw.IsChecked == true && _polyLineStartDrawed)
+            if (RoiPolygon.IsChecked == true && _polyLineStartDrawed)
             {
                 _canvasPolyline.Visibility = Visibility.Visible;
                 _canvasMouseLine.Visibility = Visibility.Visible;
@@ -364,7 +385,7 @@ namespace Soup
         #endregion
 
 
-        #region 私有方法
+        #region private methods
         /// <summary>
         /// 初始化操作
         /// </summary>
@@ -437,26 +458,24 @@ namespace Soup
         }
 
 
+
         private void DisplayCanvasAndClearDrawingObject()
         {
             MouseCanvas.Visibility = Visibility.Visible;
 
-            //清除当前ROI
-            if (_roi != null && _roi.IsInitialized())
-            {
-                _hWind2D.DetachDrawingObjectFromWindow(_roi);
-                _roi.Dispose();
-            }
+            ClearROI();
         }
 
         #endregion
 
 
-        #region 公开方法
+        #region public methods
 
+        /// <summary>
+        /// clear roi
+        /// </summary>
         public void ClearROI()
         {
-            //清除当前ROI
             if (_roi != null && _roi.IsInitialized())
             {
                 _hWind2D.DetachDrawingObjectFromWindow(_roi);
